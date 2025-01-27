@@ -47,7 +47,7 @@
         <div id="story-text"></div>
         <div id="choices"></div>
     </div>
-    <script>// This is the game's data structure, holding the story text, choices, and outcomes.
+    <script>
     let gameData = {
         "entryway": {
             "text": "You stand in a dusty entryway. A heavy oak door leads north, and a creaky staircase winds upward to the east. To the south, you see a faint glimmer of light coming from under the door.",
@@ -439,25 +439,25 @@
         }
     };
 
-    // Get references to the HTML elements
+
     const storyText = document.getElementById("story-text");
     const choicesElement = document.getElementById("choices");
     let visitedRooms = [];
     let previousRoom = null;
 
-    // Function to start the game
+
     function startGame() {
         let currentRoom = "entryway";
         let playerName = prompt("What is your name, brave adventurer?");
 
-        // Display the starting room's text
+
         storyText.textContent = `${playerName}, ${gameData[currentRoom].text}`;
         displayChoices(currentRoom);
     }
 
-    // Function to display choices for the current room
+
     function displayChoices(roomName) {
-        choicesElement.innerHTML = ""; // Clear previous choices
+        choicesElement.innerHTML = ""; 
 
         for (let choice in gameData[roomName].choices) {
             let choiceButton = document.createElement("button");
@@ -470,38 +470,38 @@
         }
     }
 
-    // Function to handle player's choice
+
     function handleChoice(roomName, choice) {
         let nextRoom = gameData[roomName].choices[choice];
 
-        // Check if the next room has been visited before
+
         if (visitedRooms.includes(nextRoom) && !nextRoom.startsWith("riddle_")) {
             storyText.textContent = "You've already been here. There's nothing new to discover.";
-            // Return the player to the previous room
+
             returnToPreviousRoom();
         } else {
-            // Update the story text and choices
+
             storyText.textContent = gameData[nextRoom].text;
             displayChoices(nextRoom);
 
-            // Add the current room to the list of visited rooms
+
             visitedRooms.push(roomName);
             previousRoom = roomName;
 
-            // Check if the game has ended
+
             if (nextRoom === "the_end") {
                 alert("The game has ended!");
             }
         }
     }
 
-    // Function to return the player to the previous room
+
     function returnToPreviousRoom() {
         if (previousRoom !== null) {
-            let temp = visitedRooms.pop(); // Remove the current room from visited rooms
+            let temp = visitedRooms.pop(); 
             let currentRoom = previousRoom;
-            previousRoom = temp; // Set previous room as the current room
-            handleChoice(currentRoom, ''); // Re-display choices for the previous room
+            previousRoom = temp; 
+            handleChoice(currentRoom, '');
         } else {
             alert("You can't return to the previous room as there's no previous room recorded.");
         }
